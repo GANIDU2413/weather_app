@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import '../models/weather_model.dart';
@@ -33,7 +34,12 @@ class WeatherService {
         desiredAccuracy: LocationAccuracy.high);
 
     //convert the location into a list of placemark objects
+    List<Placemark> placemark =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
 
     //ectract the city name from the first placemark
+    String? city = placemark[0].locality;
+
+    return city ?? "";
   }
 }
